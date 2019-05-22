@@ -73,8 +73,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
-    <InternalWordList>WordList.xml</InternalWordList>
-    <ExternalWordList>WordList_en-GB.xml</ExternalWordList>
+    <InternalWordList>WordList_en-GB.xml</InternalWordList>
+    <ExternalWordList>WordList.xml</ExternalWordList>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(InternalWordList)">
