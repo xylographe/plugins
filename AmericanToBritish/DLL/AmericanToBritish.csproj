@@ -72,20 +72,28 @@
       <DependentUpon>PluginForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <PropertyGroup>
+    <InternalWordList>WordList.xml</InternalWordList>
+    <ExternalWordList>WordList_en-GB.xml</ExternalWordList>
+  </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="WordList.xml">
+    <EmbeddedResource Include="$(InternalWordList)">
       <LogicalName>$(RootNamespace).WordList.xml</LogicalName>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="WordList_en-GB.xml" />
+    <None Include="$(ExternalWordList)" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
+  <Target Name="BeforeBuild">
+    <Copy SourceFiles="$(InternalWordList)" DestinationFiles="$(InternalWordList).orig" />
+    <Exec Command="powershell -NoLogo -NoProfile -WindowStyle Hidden –ExecutionPolicy Bypass -File WordListMgr.ps1 -Strip $(InternalWordList)" />
+  </Target>
+  <Target Name="AfterBuild">
+    <Copy SourceFiles="$(InternalWordList).orig" DestinationFiles="$(InternalWordList)" />
+    <Delete Files="$(InternalWordList).orig" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
